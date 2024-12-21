@@ -1,0 +1,278 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.note-list {
+    width: 30%;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.note-editor {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+}
+
+/* 深色主题下的修改 */
+textarea {
+    flex: 1;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+.note-list button {
+    margin-right: 15px;
+}
+
+#note-list li {
+    height: 50px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 15px;
+} 
+
+.drag-over {
+    background-color: #f0f0f0;
+}
+
+/* 浅色主题 */
+.light-theme {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.light-theme .sidebar, .light-theme .note-list, .light-theme .note-editor {
+    background-color: #fff;
+}
+
+.light-theme input[type="text"], .light-theme textarea {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+}
+
+/* 深色主题 */
+.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme .sidebar, .dark-theme .note-list, .dark-theme .note-editor {
+    background-color: #1e1e1e;
+}
+
+.dark-theme button {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.dark-theme button:hover {
+    background-color: #555;
+}
+
+.dark-theme input[type="text"], .dark-theme textarea {
+    border: 1px solid #444;
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+/* 修改笔记项的背景色和文本色 */
+.dark-theme li {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.dark-theme li:hover {
+    background-color: #444;
+}
+
+.dark-theme .drag-over {
+    background-color: #555;
+}
+
+.dark-theme .note-list h2, .dark-theme .note-editor h2 {
+    color: #e0e0e0; /* 使深色主题下的标题颜色变浅 */
+}
+
+.dark-theme #search-notes {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+/* 修改"笔记分类"的标题颜色 */
+.dark-theme .sidebar h2 {
+    color: #e0e0e0; /* 修改为浅色 */
+}
+
+
+/* 浅绿色主题 */
+
+
+
+
+
+
+/* 浅绿色主题 (背景色修改为 #fbe9e9) */
+.light-green-theme {
+    background-color: #fbe9e9; /* 修改为浅粉色背景 */
+    color: #2c6e49; /* 深绿色文本 */
+}
+
+.light-green-theme .sidebar, .light-green-theme .note-list, .light-green-theme .note-editor {
+    background-color: #cec0c0; /* 白色背景 */
+}
+
+.light-green-theme input[type="text"], .light-green-theme textarea {
+    border: 1px solid #c3e6c4;
+    background-color: #fbe9e9; /* 修改为浅粉色背景 */
+    color: #2c6e49;
+}
+
+/* 其他元素样式 */
+.light-green-theme button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.light-green-theme button:hover {
+    background-color: #388e3c;
+}
+
+.light-green-theme .note-list h2, .light-green-theme .note-editor h2, .light-green-theme .sidebar h2 {
+    color: #2c6e49; /* 浅绿色主题下标题文本 */
+}
+
+.light-green-theme li {
+    background-color: #f9e4e4; /* 修改为浅粉色背景 */
+    color: #2c6e49;
+}
+
+.light-green-theme li:hover {
+    background-color: #f2d1d1; /* 更深的粉色背景 */
+}
+
+.light-green-theme .drag-over {
+    background-color: #f0d4d4;
+}
+
+.light-green-theme #search-notes {
+    background-color: #f2d1d1;
+    color: #2c6e49;
+    border: 1px solid #c3e6c4;
+}
+
+.markdown-preview {
+    flex: 1;
+    margin-top: 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+/* 默认主题 */
+.markdown-preview {
+    flex: 1;
+    margin-top: 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+/* 深色主题 */
+.dark-theme .markdown-preview {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+/* 浅绿色主题 */
+.light-green-theme .markdown-preview {
+    background-color: #fbe9e9;
+    color: #2c6e49;
+    border: 1px solid #c3e6c4;
+}
+
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔记管理系统</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>笔记分类</h2>
+            <ul id="category-list" ondragover="event.preventDefault()">
+                <li data-id="default" draggable="true">全部笔记</li>
+                <li data-id="uncategorized" draggable="true">未分类</li>
+                <li data-id="recently-deleted" draggable="true">最近删除</li>
+            </ul>
+            <button id="add-category">添加分类</button>
+            <button id="clear-storage">清除存储</button>
+                <!-- 主题色切换按钮 -->
+    <div class="theme-switcher">
+        <button id="light-theme">白色主题</button>
+        <button id="dark-theme">深色主题</button>
+        <button id="light-green-theme">浅色主题</button>
+
+    </div>
+        </div>
+        <div class="note-list">
+            <h2 id="note-list-title">笔记列表</h2>
+            <input type="text" id="search-notes" placeholder="搜索笔记..." style="width: 100%; padding: 8px; margin-bottom: 10px;">
+            <ul id="note-list" ondragover="event.preventDefault()">
+                <!-- 笔记列表项将在script.js中动态生成 -->
+            </ul>
+            <div class="button-container" style="display: flex; align-items: center;">
+                <button id="add-note">新建笔记</button>
+            </div>
+        </div>
+        <div class="note-editor">
+            <h2>笔记编辑</h2>
+            <input type="text" id="note-title" placeholder="笔记标题">
+            <textarea id="note-content" placeholder="笔记内容"></textarea>
+            <div id="markdown-preview" class="markdown-preview"></div>
+        </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
