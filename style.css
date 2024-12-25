@@ -52,7 +52,6 @@ ul {
 
 li {
     padding: 10px;
-    border-bottom: 1px solid #eee;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -89,6 +88,21 @@ input[type="text"], textarea {
     height: 40px;
 }
 
+#note-list li {
+    height: 50px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 15px;
+} 
+
+#markdown-preview li {
+    align-items: center;
+    padding: 0 0px;
+    border-radius: 0px;
+} 
+
 /* 深色主题下的修改 */
 textarea {
     flex: 1;
@@ -100,14 +114,7 @@ textarea {
     margin-right: 15px;
 }
 
-#note-list li {
-    height: 50px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    border-radius: 15px;
-} 
+
 
 .drag-over {
     background-color: #f0f0f0;
@@ -183,13 +190,15 @@ textarea {
     color: #e0e0e0; /* 修改为浅色 */
 }
 
+.dark-theme .markdown-preview li{
+    background-color:#1e1e1e;
+}
+
+.dark-theme .markdown-preview li:hover{
+    cursor: text;
+}
 
 /* 浅绿色主题 */
-
-
-
-
-
 
 /* 浅绿色主题 (背景色修改为 #fbe9e9) */
 .light-green-theme {
@@ -239,15 +248,12 @@ textarea {
     color: #2c6e49;
     border: 1px solid #c3e6c4;
 }
+.light-green-theme .markdown-preview li{
+    background-color:#fbe9e9;
+}
 
-.markdown-preview {
-    flex: 1;
-    margin-top: 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    overflow-y: auto;
+.light-green-theme .markdown-preview li:hover{
+    cursor: text;
 }
 
 /* 默认主题 */

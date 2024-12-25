@@ -12,6 +12,13 @@ const notesData = JSON.parse(localStorage.getItem('notesData')) || {
             content: '1. 实现了笔记分类的功能，用户可以添加新的分类\n2. 用户可以拖拽笔记进行排序\n3. 用户可以将笔记拖拽到左侧的分类中进行分组\n4. 实时渲染markdown基本语法\n5. 有最近删除功能，删除笔记后可以在最近删除中复原\n6. 在最近删除中删除笔记将无法复原笔记\n7. 支持搜索功能，可以搜索笔记标题和内容\n8. 实现了三种主题切换，会根据用户浏览器默认主题进行更换\n9. 笔记分类名不能为空，或者重复\n10. 笔记名不能为空\n11. 笔记名在当前分类下不能重复\n12. 显示默认的“全部笔记”、“未分类”和"最近删除"三个条目。\n13. 提供“新建笔记”按钮,点击后输入笔记名，创建一条新笔记',
             lastModified: new Date().toISOString(),
             categoryId: 'uncategorized'
+        },
+        {
+            id: Date.now().toString(),
+            title: 'markdown测试',
+            content: '# 标题\n这是一个段落，*斜体* 在最后面。\n**粗体** 和 *斜体* 都可以正常渲染。\n- 无序列表项1\n- 无序列表项2\n1. 有序列表项1\n2. 有序列表项2\n![图片](https://s2.loli.net/2024/04/15/Ne536Z8YCQXMh9i.jpg)<br/>[百度链接](https://www.baidu.com)',
+            lastModified: new Date().toISOString(),
+            categoryId: 'uncategorized'
         }
     ]
 };
@@ -79,12 +86,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 删除分类及其笔记
+    // 删除分类并将该分类下的笔记移动到未分类
     function deleteCategory(categoryId) {
         // 删除分类
         notesData.categories = notesData.categories.filter(category => category.id !== categoryId);
-        // 删除该分类下的所有笔记
-        notesData.notes = notesData.notes.filter(note => note.categoryId !== categoryId);
+        // 将该分类下的所有笔记移动到未分类
+        notesData.notes.forEach(note => {
+            if (note.categoryId === categoryId) {
+                note.categoryId = 'uncategorized';
+            }
+        });
         localStorage.setItem('notesData', JSON.stringify(notesData));
         renderCategories();
         displayNotes('default'); // 切换到显示所有笔记
@@ -319,6 +330,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     content: '1. 实现了笔记分类的功能，用户可以添加新的分类\n2. 用户可以拖拽笔记进行排序\n3. 用户可以将笔记拖拽到左侧的分类中进行分组\n4. 实时渲染markdown基本语法\n5. 有最近删除功能，删除笔记后可以在最近删除中复原\n6. 在最近删除中删除笔记将无法复原笔记\n7. 支持搜索功能，可以搜索笔记标题和内容\n8. 实现了三种主题切换，会根据用户浏览器默认主题进行更换\n9. 笔记分类名不能为空，或者重复\n10. 笔记名不能为空\n11. 笔记名在当前分类下不能重复\n12. 显示默认的“全部笔记”、“未分类”和"最近删除"三个条目。\n13. 提供“新建笔记”按钮,点击后输入笔记名，创建一条新笔记',
                     lastModified: new Date().toISOString(),
                     categoryId: 'uncategorized'
+                },
+                {
+                    id: Date.now().toString(),
+                    title: 'markdown测试',
+                    content: '# 标题\n这是一个段落，*斜体* 在最后面。\n**粗体** 和 *斜体* 都可以正常渲染。\n- 无序列表项1\n- 无序列表项2\n1. 有序列表项1\n2. 有序列表项2\n![图片](https://s2.loli.net/2024/04/15/Ne536Z8YCQXMh9i.jpg)<br/>[链接](https://www.baidu.com)',
+                    lastModified: new Date().toISOString(),
+                    categoryId: 'uncategorized'
                 }
             ];
             renderCategories();
@@ -464,30 +482,42 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+// 优化渲染Markdown功能
 function renderMarkdown(text) {
     // 转换标题
-    text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-    text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-    text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+    text = text.replace(/^#{1,3}\s+(.*)$/gm, (match, p1) => {
+        const level = match.match(/#/g).length;
+        return `<h${level}>${p1}</h${level}>`;
+    });
 
     // 转换粗体
-    text = text.replace(/\*\*(.*)\*\*/gim, '<b>$1</b>');
+    text = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
     // 转换斜体
-    text = text.replace(/\*(.*)\*/gim, '<i>$1</i>');
+    text = text.replace(/\*(.*?)\*/g, '<i>$1</i>');
 
     // 转换无序列表
-    text = text.replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>');
+    text = text.replace(/^\*\s+(.*)$/gm, '<li>• $1</li>');
+    text = text.replace(/^\-\s+(.*)$/gm, '<li>• $1</li>');
+    text = text.replace(/(<li>.*<\/li>)+/g, '<ul>$&</ul>');
 
     // 转换有序列表
-    text = text.replace(/^\d+\. (.*$)/gim, '<ol><li>$1</li></ol>');
+    text = text.replace(/^(\d+)\.\s+(.*)$/gm, '<li>$1. $2</li>');
+    text = text.replace(/(<li>.*<\/li>)+/g, '<ol>$&</ol>'); 
 
-    // 换行
+    // 转换图片
+    text = text.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" />');
+
+    // 转换链接，添加 target="_blank" 以在新标签页中打开
+    text = text.replace(/\[(.*?)\]\((https?:\/\/.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+    // 转换换行符
     text = text.replace(/\n$/gim, '<br />');
 
     return text.trim();
 }
+
+
 
 
 
